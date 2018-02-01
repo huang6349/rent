@@ -1,0 +1,11 @@
+{
+  "pages": [
+    "pages/index/index"
+  ],
+  "window": {
+    "backgroundTextStyle": "#fff",
+    "navigationBarBackgroundColor": "#f5222d",
+    "navigationBarTitleText": "简单的房租计算器+",
+    "navigationBarTextStyle": "#fff"
+  }
+}

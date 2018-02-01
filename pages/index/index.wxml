@@ -1,0 +1,25 @@
+<import src="/zanui/2.4.4/dist/field/index.wxml" />
+<import src="/zanui/2.4.4/dist/toast/index.wxml" />
+
+<!--index.wxml-->
+<view class="container">
+  <form bindsubmit="formSubmit">
+    <view class="zan-panel-title field__title--radius">用电计算（收费：{{dian}}元/度）</view>
+    <template is="zan-field" data="{{ ...field.dian1 }}"></template>
+    <template is="zan-field" data="{{ ...field.dian2 }}"></template>
+    <view class="zan-panel-title field__title--radius">用水计算（收费：{{shui}}元/吨）</view>
+    <template is="zan-field" data="{{ ...field.shui1 }}"></template>
+    <template is="zan-field" data="{{ ...field.shui2 }}"></template>
+    <view class="zan-panel-title field__title--radius">房租（单位：元/月）</view>
+    <template is="zan-field" data="{{ ...field.fz, value : fz }}"></template>
+    <view class="zan-panel-title field__title--radius">
+      <text>总计：</text>
+      <text class="zan-font-24 zan-c-gray-darker zan-font-bold">{{count}}</text>
+      <text> 元</text>
+    </view>
+    <view class="zan-btns">
+      <button class="zan-btn zan-btn--danger" style="background-color:#f5222d;" formType="submit">计算总价</button>
+    </view>
+  </form>
+  <template is="zan-toast" data="{{ zanToast }}"></template>
+</view>

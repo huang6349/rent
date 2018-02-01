@@ -1,0 +1,11 @@
+/**app.wxss**/
+@import "zanui/2.4.4/dist/index.wxss";
+
+.container {
+  background-color: #f9f9f9;
+  height: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
