@@ -3,9 +3,10 @@
     "pages/index/index"
   ],
   "window": {
-    "backgroundTextStyle": "#fff",
+    "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#f5222d",
     "navigationBarTitleText": "简单的房租计算器+",
-    "navigationBarTextStyle": "#fff"
-  }
+    "navigationBarTextStyle": "white"
+  },
+  "sitemapLocation": "sitemap.json"
 }
