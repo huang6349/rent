@@ -11,7 +11,7 @@ Page(extend({}, Field, Toast, {
     count: 0,
     field: {
       dian1: {
-        inputType: 'number',
+        inputType: 'text',
         title: '上月用电',
         placeholder: '请输入上月用电度数',
         mode: 'wrapped',
@@ -19,7 +19,7 @@ Page(extend({}, Field, Toast, {
         componentId: 'dian1'
       },
       dian2: {
-        inputType: 'number',
+        inputType: 'text',
         title: '本月用电',
         placeholder: '请输入本月用电度数',
         mode: 'wrapped',
@@ -27,7 +27,7 @@ Page(extend({}, Field, Toast, {
         componentId: 'dian2'
       },
       x1: {
-        inputType: 'number',
+        inputType: 'text',
         title: '电费系数',
         placeholder: '请输入固定电费系数',
         mode: 'wrapped',
@@ -35,7 +35,7 @@ Page(extend({}, Field, Toast, {
         componentId: 'x1',
       },
       shui1: {
-        inputType: 'number',
+        inputType: 'text',
         title: '上月用水',
         placeholder: '请输入上月用水吨数',
         mode: 'wrapped',
@@ -43,7 +43,7 @@ Page(extend({}, Field, Toast, {
         componentId: 'shui1'
       },
       shui2: {
-        inputType: 'number',
+        inputType: 'text',
         title: '本月用水',
         placeholder: '请输入本月用水吨数',
         mode: 'wrapped',
@@ -51,7 +51,7 @@ Page(extend({}, Field, Toast, {
         componentId: 'shui2'
       },
       x2: {
-        inputType: 'number',
+        inputType: 'text',
         title: '水费系数',
         placeholder: '请输入固定水费系数',
         mode: 'wrapped',
@@ -59,7 +59,7 @@ Page(extend({}, Field, Toast, {
         componentId: 'x2'
       },
       fz: {
-        inputType: 'number',
+        inputType: 'text',
         title: '固定房租',
         placeholder: '请输入固定房租价格',
         mode: 'wrapped',
@@ -89,7 +89,7 @@ Page(extend({}, Field, Toast, {
     }
     const fx1 = parseFloat(x1 || 0);
     if (!this.isRealNum(fx1)) {
-      this.showZanToast('用电系数只能是数字');
+      this.showZanToast('电费系数只能是数字');
       return;
     }
     const fshui1 = parseFloat(shui1 || 0);
@@ -110,8 +110,12 @@ Page(extend({}, Field, Toast, {
       return;
     }
     const fx2 = parseFloat(x2 || 0);
-    if (!this.isRealNum(fx1)) {
-      this.showZanToast('用水系数只能是数字');
+    if (!this.isRealNum(fx2)) {
+      this.showZanToast('水费系数只能是数字');
+      return;
+    }
+    if (!this.isRealNum(fz)) {
+      this.showZanToast('固定房租只能是数字');
       return;
     }
     const yd = (fdian2 - fdian1) * parseFloat(fx1);
@@ -120,7 +124,7 @@ Page(extend({}, Field, Toast, {
       dian: fx1,
       shui: fx2,
       fz,
-      count: yd + ys + parseFloat(fz || 0),
+      count: (yd + ys + parseFloat(fz || 0)).toFixed(2),
     });
   },
   isRealNum: function (val) {
@@ -143,8 +147,8 @@ Page(extend({}, Field, Toast, {
   },
   handleZanFieldFocus({ componentId, detail }) { },
   handleZanFieldBlur({ componentId, detail }) {
-    if('x1' === componentId) this.setData({ dian: detail?.value });
-    if('x2' === componentId) this.setData({ shui: detail?.value });
-    if('fz' === componentId) this.setData({ fz: detail?.value });
+    if('x1' === componentId && this.isRealNum(detail?.value)) this.setData({ dian: detail?.value });
+    if('x2' === componentId && this.isRealNum(detail?.value)) this.setData({ shui: detail?.value });
+    if('fz' === componentId && this.isRealNum(detail?.value)) this.setData({ fz: detail?.value });
   },
 }));
