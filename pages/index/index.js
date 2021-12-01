@@ -114,7 +114,8 @@ Page(extend({}, Field, Toast, {
       this.showZanToast('水费系数只能是数字');
       return;
     }
-    if (!this.isRealNum(fz)) {
+    const ffz = parseFloat(fz || 0);
+    if (!this.isRealNum(ffz)) {
       this.showZanToast('固定房租只能是数字');
       return;
     }
@@ -123,8 +124,8 @@ Page(extend({}, Field, Toast, {
     this.setData({
       dian: fx1,
       shui: fx2,
-      fz,
-      count: (yd + ys + parseFloat(fz || 0)).toFixed(2),
+      fz: ffz,
+      count: (yd + ys + ffz).toFixed(2),
     });
   },
   isRealNum: function (val) {
