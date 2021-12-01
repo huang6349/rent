@@ -5,9 +5,9 @@ const { extend, Field, Toast } = require('../../zanui/2.4.4/dist/index');
 
 Page(extend({}, Field, Toast, {
   data: {
-    dian: 1.2,
-    shui: 4,
-    fz: 650,
+    dian: null,
+    shui: null,
+    fz: null,
     count: 0,
     field: {
       dian1: {
@@ -26,6 +26,14 @@ Page(extend({}, Field, Toast, {
         right: true,
         componentId: 'dian2'
       },
+      x1: {
+        inputType: 'number',
+        title: '电费系数',
+        placeholder: '请输入固定电费系数',
+        mode: 'wrapped',
+        right: true,
+        componentId: 'x1',
+      },
       shui1: {
         inputType: 'number',
         title: '上月用水',
@@ -42,25 +50,26 @@ Page(extend({}, Field, Toast, {
         right: true,
         componentId: 'shui2'
       },
+      x2: {
+        inputType: 'number',
+        title: '水费系数',
+        placeholder: '请输入固定水费系数',
+        mode: 'wrapped',
+        right: true,
+        componentId: 'x2'
+      },
       fz: {
         inputType: 'number',
-        title: '本月房租',
-        placeholder: '请输入本月房租价格',
+        title: '固定房租',
+        placeholder: '请输入固定房租价格',
         mode: 'wrapped',
         right: true,
         componentId: 'fz'
       },
     },
   },
-  onLoad: function () {
-    const { fz } = this.data;
-    this.setData({
-      count: fz,
-    });
-  },
   formSubmit: function (e) {
-    const { dian1, dian2, shui1, shui2, fz } = e.detail.value;
-    const { dian, shui } = this.data;
+    const { dian1, dian2, x1, shui1, shui2, x2, fz } = e.detail.value;
     const fdian1 = parseFloat(dian1 || 0);
     if (!this.isRealNum(fdian1)) {
       this.showZanToast('上月用电只能是数字');
@@ -76,6 +85,11 @@ Page(extend({}, Field, Toast, {
         [`field.dian2.error`]: true,
       });
       this.showZanToast('本月用电要大于上月用电');
+      return;
+    }
+    const fx1 = parseFloat(x1 || 0);
+    if (!this.isRealNum(fx1)) {
+      this.showZanToast('用电系数只能是数字');
       return;
     }
     const fshui1 = parseFloat(shui1 || 0);
@@ -95,9 +109,17 @@ Page(extend({}, Field, Toast, {
       this.showZanToast('本月用水要大于上月用水');
       return;
     }
-    const yd = (fdian2 - fdian1) * parseFloat(dian);
-    const ys = (fshui2 - fshui1) * parseFloat(shui);
+    const fx2 = parseFloat(x2 || 0);
+    if (!this.isRealNum(fx1)) {
+      this.showZanToast('用水系数只能是数字');
+      return;
+    }
+    const yd = (fdian2 - fdian1) * parseFloat(fx1);
+    const ys = (fshui2 - fshui1) * parseFloat(fx2);
     this.setData({
+      dian: fx1,
+      shui: fx2,
+      fz,
       count: yd + ys + parseFloat(fz || 0),
     });
   },
@@ -120,5 +142,9 @@ Page(extend({}, Field, Toast, {
     });
   },
   handleZanFieldFocus({ componentId, detail }) { },
-  handleZanFieldBlur({ componentId, detail }) { },
+  handleZanFieldBlur({ componentId, detail }) {
+    if('x1' === componentId) this.setData({ dian: detail?.value });
+    if('x2' === componentId) this.setData({ shui: detail?.value });
+    if('fz' === componentId) this.setData({ fz: detail?.value });
+  },
 }));
