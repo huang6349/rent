@@ -8,7 +8,7 @@ Page(extend({}, Field, Toast, {
     dian: null,
     shui: null,
     fz: null,
-    count: 0,
+    count: (0).toFixed(2),
     field: {
       dian1: {
         inputType: 'text',
